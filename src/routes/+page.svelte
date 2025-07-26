@@ -34,7 +34,7 @@
         submitPrompt();
       }
     }}
-  />
+  ></textarea>
   <button on:click={submitPrompt} disabled={isLoading}>
     {isLoading ? "Thinking..." : "Send"}
   </button>
