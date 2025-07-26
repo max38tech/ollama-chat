@@ -4,7 +4,7 @@
 use futures_util::StreamExt;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
-use tauri::{AppHandle, Manager};
+use tauri::{AppHandle, Emitter}; // Corrected this line
 
 #[derive(Serialize, Deserialize, Debug)]
 struct OllamaRequest<'a> {
@@ -54,7 +54,7 @@ async fn invoke_ollama(app_handle: AppHandle, prompt: String) -> Result<(), Stri
             match serde_json::from_str::<OllamaResponse>(part) {
                 Ok(ollama_response) => {
                     // Emit an event to the frontend with the new chunk of text
-                    app_handle.emit_all("ollama-response", ollama_response).unwrap();
+                    app_handle.emit("ollama-response", ollama_response).unwrap();
                 }
                 Err(e) => eprintln!("Failed to parse JSON: {}, raw: '{}'", e, part),
             }
